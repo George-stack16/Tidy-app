@@ -1,0 +1,260 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .container { padding: 1rem 0; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab { padding: 8px 18px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+  .tab.active { background: var(--color-background-info); color: var(--color-text-info); border-color: transparent; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .card h3 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+  .card p, .card li { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+  .card ul { padding-left: 1.2rem; }
+  .card li { margin-bottom: 4px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 999px; margin-bottom: 10px; }
+  .badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .badge-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .badge-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .badge-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 12px; }
+  .key-term { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .term-label { font-size: 13px; font-weight: 500; color: var(--color-text-info); min-width: 90px; padding-top: 1px; }
+  .term-def { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .qa-item { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; margin-bottom: 8px; cursor: pointer; }
+  .qa-q { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .qa-a { font-size: 13px; color: var(--color-text-secondary); margin-top: 8px; line-height: 1.6; display: none; }
+  .qa-item.open .qa-a { display: block; }
+  .qa-item .toggle { float: right; color: var(--color-text-tertiary); font-size: 16px; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 14px 0; }
+</style>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('ll')">Linked Lists</button>
+    <button class="tab" onclick="showTab('queues')">Queues</button>
+    <button class="tab" onclick="showTab('compare')">Quick Compare</button>
+    <button class="tab" onclick="showTab('practice')">Practice Qs</button>
+  </div>
+
+  <!-- LINKED LISTS -->
+  <div id="ll" class="section active">
+    <div class="section-title">Lecture 4 & 5 — Linked Lists</div>
+
+    <div class="card">
+      <span class="badge badge-blue">Core concept</span>
+      <h3>What is a linked list?</h3>
+      <p>A sequence of <strong style="font-weight:500">nodes</strong> where each node holds data + a pointer to the next node. Unlike arrays, memory is allocated dynamically — no need to declare a fixed size in advance.</p>
+      <hr class="divider">
+      <div class="key-term"><span class="term-label">START</span><span class="term-def">Pointer to the first node. If START = NULL, the list is empty.</span></div>
+      <div class="key-term"><span class="term-label">NULL</span><span class="term-def">Marks the end of the list (stored in the last node's pointer).</span></div>
+      <div class="key-term"><span class="term-label">PTR</span><span class="term-def">A temporary pointer used to traverse the list node by node.</span></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <span class="badge badge-green">Advantages</span>
+        <ul>
+          <li>Dynamic size — grows/shrinks at runtime</li>
+          <li>Efficient memory use (allocate only what's needed)</li>
+          <li>Easier insertions and deletions than arrays</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="badge badge-red">Disadvantages</span>
+        <ul>
+          <li>Extra memory needed for pointer in each node</li>
+          <li>Searching is slow — must traverse one by one</li>
+          <li>No direct/random access like arrays</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-blue">Types of linked lists</span>
+      <h3>Singly Linked List</h3>
+      <p>Each node has one pointer → next node only. Traversal is one direction only.</p>
+      <hr class="divider">
+      <h3>Circular Linked List</h3>
+      <p>Like singly, but the last node's pointer holds the address of the first node instead of NULL — forms a circle. Can start traversal from any node.</p>
+      <hr class="divider">
+      <h3>Doubly Linked List</h3>
+      <p>Each node has three parts: <em>previous pointer | data | next pointer</em>. Can be traversed in both directions. First node's previous = NULL, last node's next = NULL.</p>
+      <hr class="divider">
+      <h3>Header Linked List</h3>
+      <p>Always starts with a special <em>header node</em> that stores info about the list (e.g. total count, sorted status). Two variants: Grounded (last node → NULL) and Circular (last node → header).</p>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-amber">Operations — Singly Linked List</span>
+      <div class="key-term"><span class="term-label">Traverse</span><span class="term-def">Visit each node once using PTR starting from START until NULL.</span></div>
+      <div class="key-term"><span class="term-label">Search</span><span class="term-def">Walk the list comparing each node's data to SEARCH_VAL. Returns address if found.</span></div>
+      <div class="key-term"><span class="term-label">Insert</span><span class="term-def">At beginning, at end, or after a given node. Always check for overflow first (is memory available?).</span></div>
+      <div class="key-term"><span class="term-label">Delete</span><span class="term-def">From beginning, end, or after a given node. Always check for underflow first (is list empty? START = NULL?).</span></div>
+      <div class="key-term"><span class="term-label">Concatenate</span><span class="term-def">Join two linked lists into one.</span></div>
+      <div class="key-term"><span class="term-label">Sort/Reverse</span><span class="term-def">Rearrange nodes in order; reversing uses three pointers: PREV, PTR, NEW.</span></div>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-green">Application</span>
+      <h3>Polynomial representation</h3>
+      <p>Each term of a polynomial (e.g. 10x² + 6x + 9) is stored as a node with two fields: <em>coefficient</em> and <em>power</em>. Linked lists can then perform operations on polynomials.</p>
+    </div>
+  </div>
+
+  <!-- QUEUES -->
+  <div id="queues" class="section">
+    <div class="section-title">Lecture 6 & 7 — Queues</div>
+
+    <div class="card">
+      <span class="badge badge-blue">Core concept</span>
+      <h3>What is a queue?</h3>
+      <p>A <strong style="font-weight:500">FIFO</strong> (First In, First Out) data structure. Elements enter at the <em>REAR</em> and leave from the <em>FRONT</em>. Think of a line at a movie theater — first person in line is served first.</p>
+      <hr class="divider">
+      <div class="key-term"><span class="term-label">REAR</span><span class="term-def">Where new elements are inserted (the tail).</span></div>
+      <div class="key-term"><span class="term-label">FRONT</span><span class="term-def">Where elements are removed (the head).</span></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <span class="badge badge-blue">Array implementation</span>
+        <p>FRONT and REAR both start at position 0. As elements are inserted, REAR increments. Deletion moves FRONT. Best when max queue size is known in advance.</p>
+      </div>
+      <div class="card">
+        <span class="badge badge-green">Linked list implementation</span>
+        <p>Uses dynamic memory — START pointer becomes FRONT, end of list becomes REAR. Best when size is unknown. All insertions at REAR, all deletions at FRONT.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-amber">Basic operations</span>
+      <div class="key-term"><span class="term-label">Enqueue</span><span class="term-def">Insert at REAR. Check overflow first (REAR = MAX – 1 means queue is full).</span></div>
+      <div class="key-term"><span class="term-label">Dequeue</span><span class="term-def">Remove from FRONT. Check underflow first (FRONT > REAR or FRONT = –1 means queue is empty).</span></div>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-blue">Types of queues</span>
+      <h3>Circular Queue</h3>
+      <p>Connects the last position back to the first — solves the wasted-space problem of linear queues. New positions calculated as: <code style="font-family: var(--font-mono); font-size:12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius:4px;">REAR = (REAR + 1) % MAX</code> and <code style="font-family: var(--font-mono); font-size:12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius:4px;">FRONT = (FRONT + 1) % MAX</code>. Also called a "ring buffer."</p>
+      <hr class="divider">
+      <h3>Priority Queue</h3>
+      <p>Each element has a priority. Higher priority elements are processed first. Equal priority → First Come First Served. Used in OS process scheduling.</p>
+      <ul style="margin-top:8px;">
+        <li><em>Ascending</em>: smallest element deleted first</li>
+        <li><em>Descending</em>: largest element deleted first</li>
+      </ul>
+      <p style="margin-top:8px;">In linked representation, each node has 3 parts: data | priority number | next address.</p>
+      <hr class="divider">
+      <h3>De-queue (Double-ended Queue)</h3>
+      <p>Insertion and deletion can happen at <em>either</em> end. Uses LEFT and RIGHT pointers. Implemented using circular arrays. Also called a head-tail linked list.</p>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-green">Real-world applications</span>
+      <ul>
+        <li>Call center phone systems — callers held in order</li>
+        <li>Real-time interrupt handling — First Come First Served</li>
+        <li>CPU round-robin scheduling</li>
+        <li>Buffers in music players and iPod playlists</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div id="compare" class="section">
+    <div class="section-title">Quick comparison</div>
+    <div class="card">
+      <h3 style="margin-bottom:12px;">Arrays vs Linked Lists</h3>
+      <div class="key-term"><span class="term-label">Memory</span><span class="term-def">Array = fixed at declaration. Linked list = allocated at runtime (dynamic).</span></div>
+      <div class="key-term"><span class="term-label">Access</span><span class="term-def">Array = direct random access. Linked list = must traverse from start.</span></div>
+      <div class="key-term"><span class="term-label">Insert/Delete</span><span class="term-def">Array = slow (shifting needed). Linked list = fast with right pointer.</span></div>
+      <div class="key-term"><span class="term-label">Space</span><span class="term-def">Array = no extra overhead. Linked list = extra pointer per node.</span></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px;">Singly vs Doubly vs Circular</h3>
+      <div class="key-term"><span class="term-label">Singly</span><span class="term-def">One direction, one pointer per node. Simplest.</span></div>
+      <div class="key-term"><span class="term-label">Doubly</span><span class="term-def">Two directions, two pointers per node (prev + next).</span></div>
+      <div class="key-term"><span class="term-label">Circular</span><span class="term-def">Last node points back to first — no NULL end. Can start from any node.</span></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px;">Overflow vs Underflow</h3>
+      <div class="key-term"><span class="term-label">Overflow</span><span class="term-def">Trying to INSERT when no memory/space is available. Check before inserting.</span></div>
+      <div class="key-term"><span class="term-label">Underflow</span><span class="term-def">Trying to DELETE from an empty structure (START = NULL or FRONT = NULL). Check before deleting.</span></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px;">Queue types at a glance</h3>
+      <div class="key-term"><span class="term-label">Linear</span><span class="term-def">Basic FIFO. Wastes space when elements are removed from front.</span></div>
+      <div class="key-term"><span class="term-label">Circular</span><span class="term-def">Fixes wasted space. Rear wraps around using modulo (% MAX).</span></div>
+      <div class="key-term"><span class="term-label">Priority</span><span class="term-def">Priority determines order, not arrival time (unless same priority).</span></div>
+      <div class="key-term"><span class="term-label">De-queue</span><span class="term-def">Insert/delete at both ends. Most flexible.</span></div>
+    </div>
+  </div>
+
+  <!-- PRACTICE -->
+  <div id="practice" class="section">
+    <div class="section-title">Practice questions — tap to reveal answers</div>
+
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">What is a linked list and how is it different from an array?</div>
+      <div class="qa-a">A linked list is a sequence of nodes where each node contains data and a pointer to the next node. Unlike arrays, it uses dynamic memory (no fixed size), but unlike arrays it doesn't support direct access — you must traverse from the start. Arrays use contiguous memory; linked lists do not.</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">What are the four types of linked lists?</div>
+      <div class="qa-a">Singly Linked List (one pointer per node, one direction), Circular Linked List (last node points to first), Doubly Linked List (two pointers per node, traversable both ways), and Header Linked List (always has a header node at the start storing list metadata).</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">What is overflow and underflow? When do you check each?</div>
+      <div class="qa-a">Overflow = trying to insert when no memory/space is available. Check before every insertion. Underflow = trying to delete from an empty structure (START = NULL or FRONT = NULL). Check before every deletion.</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">What does FIFO mean and which data structure uses it?</div>
+      <div class="qa-a">FIFO = First In, First Out. The element inserted first is the first to be removed. Queues use FIFO. The first element inserted at the REAR is the first deleted from the FRONT.</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">Why is a circular queue better than a linear queue?</div>
+      <div class="qa-a">In a linear queue, when elements are removed from the front, those positions become wasted and can't be reused without shifting all elements (expensive). A circular queue connects the rear back to the front using modulo arithmetic (REAR = (REAR+1) % MAX), allowing empty front slots to be reused.</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">How does a priority queue decide which element to process next?</div>
+      <div class="qa-a">By assigned priority — higher priority is processed first. If two elements have the same priority, they follow FIFO order. In a linked priority queue, each node stores: data, priority number, and the address of the next node.</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">What is a de-queue and how is it different from a regular queue?</div>
+      <div class="qa-a">A de-queue (double-ended queue) allows insertion and deletion at both ends — either front or rear. A regular queue only inserts at the rear and deletes from the front. De-queues are implemented with circular arrays and maintain LEFT and RIGHT pointers.</div>
+    </div>
+    <div class="qa-item" onclick="toggleQA(this)">
+      <span class="toggle">+</span>
+      <div class="qa-q">How is a polynomial represented using a linked list?</div>
+      <div class="qa-a">Each term of the polynomial becomes one node. The node stores two values: the coefficient and the power/exponent. For example, 10x² + 6x + 9 becomes three nodes: (10, 2) → (6, 1) → (9, 0).</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleQA(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.qa-item').forEach(q => {
+    q.classList.remove('open');
+    q.querySelector('.toggle').textContent = '+';
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    el.querySelector('.toggle').textContent = '−';
+  }
+}
+</script>
